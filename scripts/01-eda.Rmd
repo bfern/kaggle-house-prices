@@ -1,0 +1,14 @@
+---
+title: "Exploratory Data Analysis"
+output: html_notebook
+---
+
+This notebook is just an exploratory data analysis to begin with.
+
+```{r setup}
+library(readr)
+library(dplyr)
+
+train <- read_csv(file.path(here::here(), "data/external/train.csv"))
+```
+
