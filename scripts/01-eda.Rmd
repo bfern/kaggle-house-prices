@@ -8,7 +8,50 @@ This notebook is just an exploratory data analysis to begin with.
 ```{r setup}
 library(readr)
 library(dplyr)
+library(ggplot2)
+
+options(scipen = 999)
 
 train <- read_csv(file.path(here::here(), "data/external/train.csv"))
 ```
+
+```{r a first look}
+train %>% head
+```
+
+Lets plot the distribution of house prices.
+
+```{r house price distribution}
+train %>%
+    ggplot(aes(x = SalePrice)) +
+    geom_histogram()
+```
+
+We will be assessed based upon the RMSE between the logarithm of the predicted value and the logarithm of the observed sales price. Therefore, we probably want to be building a model on the log score.
+
+Lets see the plot above of house price distribution on the log scale.
+
+```{r house price distribution log scale}
+train %>%
+    ggplot(aes(x = SalePrice)) +
+    geom_histogram() +
+    scale_x_log10()
+```
+
+How many houses are there?
+
+```{r}
+nrow(train)
+```
+
+To begin with, I'll just have a look at some variables that I expect to be key based upon my knowledge on what influences the price of a house.
+
+These are:
+* Number of bedrooms/rooms
+* Amount of land
+* Location (urban/rural)
+* House or flat
+* Condition of the house
+* House Age
+
 
