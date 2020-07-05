@@ -16,6 +16,8 @@ options(scipen = 999)
 train <- read_csv(file.path(here::here(), "data/external/train.csv"))
 ```
 
+Lets take a look at our data.
+
 ```{r a first look}
 train %>% head
 ```
@@ -45,12 +47,33 @@ How many houses are there?
 nrow(train)
 ```
 
-Based upon my knowledge on what influences the price of a house, I would say the main variables (and therefore the ones I should spend the most time using in my model) are:
+Based upon my knowledge on what influences the price of a house, I would say the main features (and therefore the ones I should spend the most time using in my model) are:
 
 These are:
+
 * Number of bedrooms/rooms
 * Amount of land
 * Location (urban/rural)
 * House or flat
 * Condition of the house
 * House Age
+
+There are so many variables in our dataset, and I am sure that a lot of them don't give us much information at all. By referring to the data_description.txt file and our data explorer report, lets make a list of the variables to keep.
+
+* `MSZoning` -Tells us the rough location of the property (will be correlated with `Neighbourhood`)
+* `LotArea` - Tells us the amount of the land the property has
+* `Neighbourhood` - Tells us the location of the neighbourhood of the property
+* `BldgType` - Tells us whether it is detached, terraced, apartement or end terrace (not sure what a two-family conversion is)
+* `OverallQual` and `OverallCond` - Overall quality and conditon of the property. Should be easy to use in the model as this is just a number between 1 and 10 which is ordered.
+* `YearBuilt` and `YearRemodAdd` - Newer properties are generally worth slightly more I think. We probably will only want to use one of these variables as otherwise it would be confusing which to use, however I'm not sure which variable has more importance.
+* `BsmtFullBath`, `BsmtHalfBath`, `FullBath` and `HalfBath`
+* `GarageCars` - number of cars the garage can fit
+* `TotalBsmtSF`, `1stFlrSF` and `2ndFlrSF` - this tells us how large the interior of the property is
+* `MoSold` and `YrSold` - there may be a time series effect of house prices
+
+These variables should allow us to capture all the features that I said above think will have the most effect on the house price.
+
+Once we have created the model some of the other categoric variables such as the roof material, exterior covering, foundation etc may be useful to add in as random effects (only useful though if the categories are fairly evenly distributed).
+
+
+
