@@ -9,6 +9,7 @@ This notebook is just an exploratory data analysis to begin with.
 library(readr)
 library(dplyr)
 library(ggplot2)
+library(DataExplorer)
 
 options(scipen = 999)
 
@@ -40,11 +41,11 @@ train %>%
 
 How many houses are there?
 
-```{r}
+```{r number of houses}
 nrow(train)
 ```
 
-To begin with, I'll just have a look at some variables that I expect to be key based upon my knowledge on what influences the price of a house.
+Based upon my knowledge on what influences the price of a house, I would say the main variables (and therefore the ones I should spend the most time using in my model) are:
 
 These are:
 * Number of bedrooms/rooms
@@ -53,5 +54,3 @@ These are:
 * House or flat
 * Condition of the house
 * House Age
-
-
