@@ -75,5 +75,12 @@ These variables should allow us to capture all the features that I said above th
 
 Once we have created the model some of the other categoric variables such as the roof material, exterior covering, foundation etc may be useful to add in as random effects (only useful though if the categories are fairly evenly distributed).
 
+So in summary, for each of the features that I am trying to estimate, these are the variables that will allow me to create it.
 
+* Number of bedrooms/rooms - sum of TotalBsmtSF, 1stFlrSF and 2ndFlrSF
+* Amount of land - LotArea
+* Location (urban/rural) - both Neighborhood and MSZoning as random effects
+* House or flat - BldgType - can just add this in as another random effect
+* Condition of the house - OverallCond, OverallQual may also be useful
+* House Age - I don't think this is relevant given the feature above
 
