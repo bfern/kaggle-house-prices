@@ -15,5 +15,3 @@ train %>%
     ggplot(aes(x = interior_area, y = SalePrice)) +
     geom_point() +
     geom_smooth()
-
-train %>%
