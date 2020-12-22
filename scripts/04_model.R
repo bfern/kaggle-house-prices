@@ -15,6 +15,8 @@ model <- lmer(
   data = train
 )
 
+saveRDS(model, file.path(here::here(), "models/model.rds"))
+
 # model <- lm(logSalePrice ~ 1, data = train)
 
 train_with_preds <- train %>%
