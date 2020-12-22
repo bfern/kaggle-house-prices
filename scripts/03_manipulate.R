@@ -1,7 +1,5 @@
 library(readr)
 library(dplyr)
-library(ggplot2)
-library(mgcv)
 
 train <- read_csv(file.path(here::here(), "data/external/train.csv"))
 
