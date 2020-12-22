@@ -7,7 +7,8 @@ train <- train %>%
   select(MSZoning, LotArea, Neighborhood, BldgType, OverallQual, OverallCond, YearBuilt,
          YearRemodAdd, GarageCars, TotalBsmtSF, "1stFlrSF", "2ndFlrSF",
          MoSold, YrSold, SalePrice) %>%
-  rename(firstFlrSF = "1stFlrSF", secondFlrSF = "2ndFlrSF")
+  rename(firstFlrSF = "1stFlrSF", secondFlrSF = "2ndFlrSF") %>%
+  filter(!is.na(SalePrice))
 
 train <- train %>%
     mutate(
