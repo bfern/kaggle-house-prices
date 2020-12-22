@@ -9,7 +9,7 @@ train <- train %>%
          MoSold, YrSold, SalePrice) %>%
   rename(firstFlrSF = "1stFlrSF", secondFlrSF = "2ndFlrSF")
 
-train %>%
+train <- train %>%
     mutate(
       interiorArea =  TotalBsmtSF + firstFlrSF + secondFlrSF,
       logSalePrice = log(SalePrice)
