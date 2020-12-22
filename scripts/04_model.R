@@ -1,8 +1,21 @@
 library(readr)
+library(lme4)
 
 train <- read_csv(file.path(here::here(), "data/interim/train.csv"))
 
-model <- lm(logSalePrice ~ 1, train)                  
+model <- lmer(
+  formula = logSalePrice ~ 1 +
+    I(pmin(interiorArea, 4000)) +
+    I(pmin(LotArea, 15000)) +
+    MSZoning +
+    OverallQual +
+    OverallCond +
+    YearRemodAdd +
+    (1|Neighborhood),
+  data = train
+)
+
+# model <- lm(logSalePrice ~ 1, data = train)
 
 train_with_preds <- train %>%
     mutate(pred = as.numeric(predict(model, train)))

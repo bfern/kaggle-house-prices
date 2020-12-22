@@ -1,0 +1,74 @@
+---
+title: "Model Analysis"
+output: html_notebook
+---
+
+```{r set up}
+library(dplyr)
+library(arm)
+
+train <- readRDS(file.path(here::here(), "data/interim/train_with_preds.rds"))
+train <- train %>%
+    mutate(resid = logSalePrice - pred)
+```
+
+In this notebook I take my predictions from the previous script and analyse them to see where they are weak and could be improved.
+
+Lets take a look at the residuals between `interiorArea` and `logSalePrice`.
+
+```{r interiorArea residual plot}
+binnedplot(train$interiorArea, train$resid)
+```
+
+```{r LotArea residual plot}
+binnedplot(train$LotArea, train$resid)
+```
+
+```{r MSZoning residuals}
+train %>%
+  group_by(MSZoning) %>%
+  summarise(
+    mean_resid = mean(resid),
+    se_resid = sd(resid)/sqrt(n())
+  )
+```
+
+```{r Neighborhood residuals}
+train %>%
+  group_by(Neighborhood) %>%
+  summarise(
+    mean_resid = mean(resid),
+    se_resid = sd(resid)/sqrt(n())
+  )
+```
+
+```{r BldgTyep residuals}
+train %>%
+    group_by(BldgType) %>%
+    summarise(
+      mean_resid = mean(resid),
+      se_resid = sd(resid)/sqrt(n())
+    )
+```
+
+```{r OverallQual residual plot}
+binnedplot(train$OverallQual, train$resid)
+```
+
+```{r OverallCond residual plot}
+binnedplot(train$OverallCond, train$resid)
+```
+
+```{r YearBuilt residual plot}
+binnedplot(train$YearBuilt, train$resid)
+```
+
+```{r YearRemodAdd residual plot}
+binnedplot(train$YearRemodAdd, train$resid)
+```
+
+```{r time sold residual plot}
+binnedplot(train$YrSold + train$MoSold/12, train$resid)
+```
+
+
