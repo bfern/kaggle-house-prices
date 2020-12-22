@@ -66,7 +66,6 @@ There are so many variables in our dataset, and I am sure that a lot of them don
 * `BldgType` - Tells us whether it is detached, terraced, apartement or end terrace (not sure what a two-family conversion is)
 * `OverallQual` and `OverallCond` - Overall quality and conditon of the property. Should be easy to use in the model as this is just a number between 1 and 10 which is ordered.
 * `YearBuilt` and `YearRemodAdd` - Newer properties are generally worth slightly more I think. We probably will only want to use one of these variables as otherwise it would be confusing which to use, however I'm not sure which variable has more importance.
-* `BsmtFullBath`, `BsmtHalfBath`, `FullBath` and `HalfBath`
 * `GarageCars` - number of cars the garage can fit
 * `TotalBsmtSF`, `1stFlrSF` and `2ndFlrSF` - this tells us how large the interior of the property is
 * `MoSold` and `YrSold` - there may be a time series effect of house prices
