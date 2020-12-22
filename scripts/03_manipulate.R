@@ -5,8 +5,7 @@ train <- read_csv(file.path(here::here(), "data/external/train.csv"))
 
 train <- train %>%
   select(MSZoning, LotArea, Neighborhood, BldgType, OverallQual, OverallCond, YearBuilt,
-         YearRemodAdd, GarageCars, TotalBsmtSF, "1stFlrSF", "2ndFlrSF",
-         MoSold, YrSold, SalePrice) %>%
+         YearRemodAdd, TotalBsmtSF, "1stFlrSF", "2ndFlrSF", MoSold, YrSold, SalePrice) %>%
   rename(firstFlrSF = "1stFlrSF", secondFlrSF = "2ndFlrSF") %>%
   filter(!is.na(SalePrice))
 
