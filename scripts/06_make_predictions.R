@@ -1,15 +1,9 @@
 library(readr)
 library(dplyr)
+source(file.path(here::here(), "src/manipulate.R"))
 
-test <- read_csv(file.path(here::here(), "data/external/test.csv"))
-
-test <- test %>%
-  rename(firstFlrSF = "1stFlrSF", secondFlrSF = "2ndFlrSF") %>%
-  mutate(
-    TotalBsmtSF = coalesce(TotalBsmtSF, 0),
-    interiorArea = TotalBsmtSF + firstFlrSF + secondFlrSF,
-    MSZoning = coalesce(MSZoning, "RL")
-  )
+test <- read_csv(file.path(here::here(), "data/external/test.csv")) %>%
+  manipulate_data
 
 model <- readRDS(file.path(here::here(), "models/model.rds"))
 
