@@ -4,12 +4,18 @@ output: html_notebook
 ---
 
 ```{r set up}
+library(readr)
 library(dplyr)
 library(arm)
 
-train <- readRDS(file.path(here::here(), "data/interim/train_with_preds.rds"))
+model <- readRDS(file.path(here::here(), "models", "mixed_effects_model.rds"))
+
+train <- read_csv(file.path(here::here(), "data/interim/train.csv"))
 train <- train %>%
-    mutate(resid = logSalePrice - pred)
+  mutate(
+    predLogSalePrice = predict(model, train),
+    resid = logSalePrice - predLogSalePrice
+  )
 ```
 
 In this notebook I take my predictions from the previous script and analyse them to see where they are weak and could be improved.

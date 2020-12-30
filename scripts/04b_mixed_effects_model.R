@@ -15,11 +15,5 @@ model <- lmer(
   data = train
 )
 
-saveRDS(model, file.path(here::here(), "models/model.rds"))
-
-# model <- lm(logSalePrice ~ 1, data = train)
-
-train_with_preds <- train %>%
-    mutate(pred = as.numeric(predict(model, train)))
-
-saveRDS(train_with_preds, file.path(here::here(), "data/interim/train_with_preds.rds"))
+model_file <- file.path(here::here(), "models", "mixed_effects_model.rds")
+saveRDS(model, model_file)
