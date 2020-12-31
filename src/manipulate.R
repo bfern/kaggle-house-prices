@@ -28,7 +28,7 @@ manipulate_data <- function(df) {
         if_else(BsmtFinType2 == 6, BsmtFinSF2, 0),
       BathsBsmt = BsmtFullBath + 0.5 * BsmtHalfBath,
       BathsAbvGr = FullBath + 0.5 * HalfBath,
-      TotalBaths = BathsBsmt + BathsAbvGr,
+      BathsTotal = BathsBsmt + BathsAbvGr,
       RecepAbvGr = TotRmsAbvGrd - BedroomAbvGr - KitchenAbvGr
       
     )
