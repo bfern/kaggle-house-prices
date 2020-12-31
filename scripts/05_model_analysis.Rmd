@@ -6,7 +6,10 @@ output: html_notebook
 ```{r set up}
 library(readr)
 library(dplyr)
+library(ggplot2)
 library(arm)
+
+options(dplyr.summarise.inform = FALSE)
 
 model <- readRDS(file.path(here::here(), "models", "mixed_effects_model.rds"))
 
@@ -20,61 +23,250 @@ train <- train %>%
 
 In this notebook I take my predictions from the previous script and analyse them to see where they are weak and could be improved.
 
-Lets take a look at the residuals between `interiorArea` and `logSalePrice`.
+Lets take a look at residuals to do with the interior areas of the property.
 
-```{r interiorArea residual plot}
-binnedplot(train$interiorArea, train$resid)
+```{r interior areas residual plots}
+binnedplot(train$HighQualFinSF, train$resid)
+binnedplot(train$LowQualFinSF[train$LowQualFinSF != 0], train$resid[train$LowQualFinSF != 0])
+binnedplot(train$BsmtFinSF_1[train$BsmtFinSF_1 != 0], train$resid[train$BsmtFinSF_1 != 0])
+binnedplot(train$BsmtFinSF_2[train$BsmtFinSF_2 != 0], train$resid[train$BsmtFinSF_2 != 0])
+binnedplot(train$BsmtFinSF_3[train$BsmtFinSF_3 != 0], train$resid[train$BsmtFinSF_3 != 0])
+binnedplot(train$BsmtFinSF_4[train$BsmtFinSF_4 != 0], train$resid[train$BsmtFinSF_4 != 0])
+binnedplot(train$BsmtFinSF_5[train$BsmtFinSF_5 != 0], train$resid[train$BsmtFinSF_5 != 0])
+binnedplot(train$BsmtFinSF_6[train$BsmtFinSF_6 != 0], train$resid[train$BsmtFinSF_6 != 0])
 ```
 
-```{r LotArea residual plot}
+Lets take a look at the residuals to do with how much land the property has.
+
+```{r land residual plots}
 binnedplot(train$LotArea, train$resid)
+train %>%
+  group_by(LotShape) %>%
+  summarise(
+    number = n(),
+    mean_resid = mean(resid),
+    se_resid = sd(resid)/sqrt(n())
+  )
 ```
 
-```{r MSZoning residuals}
+Lets take a look at the residuals to do with the property location
+
+```{r location residuals}
 train %>%
   group_by(MSZoning) %>%
   summarise(
+    number = n(),
     mean_resid = mean(resid),
     se_resid = sd(resid)/sqrt(n())
   )
-```
 
-```{r Neighborhood residuals}
 train %>%
   group_by(Neighborhood) %>%
   summarise(
+    number = n(),
+    mean_resid = mean(resid),
+    se_resid = sd(resid)/sqrt(n())
+  )
+
+train %>%
+  group_by(AdjacentArterialStreet) %>%
+  summarise(
+    number = n(),
+    mean_resid = mean(resid),
+    se_resid = sd(resid)/sqrt(n())
+  )
+
+train %>%
+  group_by(AdjacentFeederStreet) %>%
+  summarise(
+    number = n(),
+    mean_resid = mean(resid),
+    se_resid = sd(resid)/sqrt(n())
+  )
+
+train %>%
+  group_by(Within200FtOfNSRailroad) %>%
+  summarise(
+    number = n(),
+    mean_resid = mean(resid),
+    se_resid = sd(resid)/sqrt(n())
+  )
+
+train %>%
+  group_by(AdjacentToNSRailroad) %>%
+  summarise(
+    number = n(),
+    mean_resid = mean(resid),
+    se_resid = sd(resid)/sqrt(n())
+  )
+
+train %>%
+  group_by(NearPosOffsiteFeature) %>%
+  summarise(
+    number = n(),
+    mean_resid = mean(resid),
+    se_resid = sd(resid)/sqrt(n())
+  )
+
+train %>%
+  group_by(AdjacentPosOffsiteFeature) %>%
+  summarise(
+    number = n(),
+    mean_resid = mean(resid),
+    se_resid = sd(resid)/sqrt(n())
+  )
+
+train %>%
+  group_by(Within200FtOfEWRailroad) %>%
+  summarise(
+    number = n(),
+    mean_resid = mean(resid),
+    se_resid = sd(resid)/sqrt(n())
+  )
+
+train %>%
+  group_by(AdjacentEWRailroad) %>%
+  summarise(
+    number = n(),
     mean_resid = mean(resid),
     se_resid = sd(resid)/sqrt(n())
   )
 ```
 
-```{r BldgTyep residuals}
+Lets take a look at the residuals to do with what the building type is.
+
+```{r building type residuals}
 train %>%
     group_by(BldgType) %>%
     summarise(
+      number = n(),
+      mean_resid = mean(resid),
+      se_resid = sd(resid)/sqrt(n())
+    )
+
+train %>%
+    group_by(MSSubClass) %>%
+    summarise(
+      number = n(),
+      mean_resid = mean(resid),
+      se_resid = sd(resid)/sqrt(n())
+    )
+
+train %>%
+    group_by(HouseStyle) %>%
+    summarise(
+      number = n(),
       mean_resid = mean(resid),
       se_resid = sd(resid)/sqrt(n())
     )
 ```
 
-```{r OverallQual residual plot}
+Lets take a look at the residuals to do with the quality of the property
+
+```{r property quality residual plot}
 binnedplot(train$OverallQual, train$resid)
-```
-
-```{r OverallCond residual plot}
 binnedplot(train$OverallCond, train$resid)
+binnedplot(train$Functional, train$resid)
 ```
 
-```{r YearBuilt residual plot}
+Lets take a look at the residuals to do with the year that the property was built.
+
+```{r year residual plots}
 binnedplot(train$YearBuilt, train$resid)
-```
-
-```{r YearRemodAdd residual plot}
 binnedplot(train$YearRemodAdd, train$resid)
 ```
+
+Lets take a look at the residuals to do with what time the property was sold.
 
 ```{r time sold residual plot}
 binnedplot(train$YrSold + train$MoSold/12, train$resid)
 ```
 
 
+Now lets take a look at residuals for other variables:
+
+```{r misc features residuals}
+train %>%
+    group_by(RoofStyle) %>%
+    summarise(
+      number = n(),
+      mean_resid = mean(resid),
+      se_resid = sd(resid)/sqrt(n())
+    )
+
+train %>%
+    group_by(Exterior1st) %>%
+    summarise(
+      number = n(),
+      mean_resid = mean(resid),
+      se_resid = sd(resid)/sqrt(n())
+    )
+
+train %>%
+    group_by(MasVnrType) %>%
+    summarise(
+      number = n(),
+      mean_resid = mean(resid),
+      se_resid = sd(resid)/sqrt(n())
+    )
+
+train %>%
+    group_by(Foundation) %>%
+    summarise(
+      number = n(),
+      mean_resid = mean(resid),
+      se_resid = sd(resid)/sqrt(n())
+    )
+
+train %>%
+    group_by(Heating) %>%
+    summarise(
+      number = n(),
+      mean_resid = mean(resid),
+      se_resid = sd(resid)/sqrt(n())
+    )
+
+train %>%
+    group_by(HeatingQC) %>%
+    summarise(
+      number = n(),
+      mean_resid = mean(resid),
+      se_resid = sd(resid)/sqrt(n())
+    )
+
+train %>%
+    group_by(CentralAir) %>%
+    summarise(
+      number = n(),
+      mean_resid = mean(resid),
+      se_resid = sd(resid)/sqrt(n())
+    )
+
+train %>%
+    group_by(Electrical) %>%
+    summarise(
+      number = n(),
+      mean_resid = mean(resid),
+      se_resid = sd(resid)/sqrt(n())
+    )
+
+binnedplot(train$GarageArea, resid)
+
+train %>%
+  filter(PoolArea != 0) %>%
+  ggplot(aes(x = PoolArea, y = resid)) +
+  geom_point()
+
+train %>%
+  filter(MiscVal != 0) %>%
+  ggplot(aes(x = MiscVal, y = resid)) +
+  geom_point()
+
+train %>%
+    group_by(SaleType) %>%
+    summarise(
+      number = n(),
+      mean_resid = mean(resid),
+      se_resid = sd(resid)/sqrt(n())
+    )
+```

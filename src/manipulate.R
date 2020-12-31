@@ -2,13 +2,14 @@ select <- dplyr::select
 
 manipulate_data <- function(df) {
   bsmt_cond_levels <- c("Unf", "LwQ", "Rec", "BLQ", "ALQ", "GLQ")
+  functional_levels <- c("Sal", "Sev", "Maj2", "Maj1", "Mod", "Min2", "Min1", "Typ")
   df %>%
     rename(firstFlrSF = "1stFlrSF", secondFlrSF = "2ndFlrSF") %>%
     mutate(
       TotalBsmtSF = coalesce(TotalBsmtSF, 0),
       MSZoning = coalesce(MSZoning, "RL"),
-      interiorArea =  TotalBsmtSF + firstFlrSF + secondFlrSF,
       HighQualFinSF = GrLivArea - LowQualFinSF,
+      BsmtUnfSF = coalesce(BsmtUnfSF, 0),
       BsmtFinType1 = as.numeric(factor(BsmtFinType1, levels = bsmt_cond_levels)),
       BsmtFinType1 = if_else(is.na(BsmtFinType1), 0, BsmtFinType1),
       BsmtFinType2 = as.numeric(factor(BsmtFinType2, levels = bsmt_cond_levels)),
@@ -29,7 +30,16 @@ manipulate_data <- function(df) {
       BathsBsmt = BsmtFullBath + 0.5 * BsmtHalfBath,
       BathsAbvGr = FullBath + 0.5 * HalfBath,
       BathsTotal = BathsBsmt + BathsAbvGr,
-      RecepAbvGr = TotRmsAbvGrd - BedroomAbvGr - KitchenAbvGr
-      
+      RecepAbvGr = TotRmsAbvGrd - BedroomAbvGr - KitchenAbvGr,
+      AdjacentArterialStreet = Condition1 == "Artery" | Condition2 == "Artery",
+      AdjacentFeederStreet = Condition1 == "Feedr" | Condition2 == "Feedr",
+      Within200FtOfNSRailroad = Condition1 == "RRNn" | Condition2 == "RRNn",
+      AdjacentToNSRailroad = Condition1 == "RRAn" | Condition2 == "RRAn",
+      NearPosOffsiteFeature = Condition1 == "PosN" | Condition2 == "PosN",
+      AdjacentPosOffsiteFeature = Condition1 == "PosA" | Condition2 == "PosA",
+      Within200FtOfEWRailroad = Condition1 == "RRNe" | Condition2 == "RRNe",
+      AdjacentEWRailroad = Condition1 == "RRAe" | Condition2 == "RRAe",
+      Functional = as.numeric(factor(Functional, levels = functional_levels)),
+      Functional = coalesce(Functional, 8)
     )
 }
