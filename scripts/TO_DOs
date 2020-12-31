@@ -1,0 +1,11 @@
+* Splines instead of linear effects in the regression model
+* Interaction effects might work well to deal with similar covariates like the basement areas
+* Tree based/clustering approach may help us capture non linear effects
+* We may be able to do a better approach to deal with missing values, rather than just replace with the most common value
+* Stacking the various approaches may be the way forward
+* Other variables that I haven't yet used but could boost predictive power that are especially easy to add into a linear model are things like:
+  - Near park
+  - Central Heating
+  - Roof Type
+  - Swimming Pool/other misc features
+  
